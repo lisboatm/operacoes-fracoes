@@ -79,44 +79,48 @@ fracao1 operador fracao2 = resultado_simplificado
 ```python
 import math
 
-# Função para simplificar a fração usando o Máximo Divisor Comum (MDC)
+# Função para simplificar a fração
 def simplificar(numerador, denominador):
     if denominador == 0:
         raise ValueError("Denominador não pode ser zero.")
     mdc = math.gcd(numerador, denominador)
     return numerador // mdc, denominador // mdc
 
-# Função para realizar a operação entre duas frações
+# Função para processar cada operação
 def processar_operacao(fracao1, operador, fracao2):
     # Extrai numerador e denominador de cada fração
     N1, D1 = map(int, fracao1.split('/'))
     N2, D2 = map(int, fracao2.split('/'))
     
+    # Verifica se os denominadores não são zero
+    if D1 == 0 or D2 == 0:
+        raise ValueError("Denominador não pode ser zero.")
+    
     if operador == '+':
-        # Soma
+        # Soma: (N1*D2 + N2*D1) / (D1*D2)
         numerador = N1 * D2 + N2 * D1
         denominador = D1 * D2
     elif operador == '-':
-        # Subtração
+        # Subtração: (N1*D2 - N2*D1) / (D1*D2)
         numerador = N1 * D2 - N2 * D1
         denominador = D1 * D2
     elif operador == '*':
-        # Multiplicação
+        # Multiplicação: (N1*N2) / (D1*D2)
         numerador = N1 * N2
         denominador = D1 * D2
     elif operador == '/':
-        # Divisão
+        # Divisão: (N1/D1) / (N2/D2) -> (N1*D2) / (N2*D1)
         numerador = N1 * D2
         denominador = N2 * D1
     else:
         raise ValueError(f"Operador inválido: {operador}")
     
-    # Simplificar o resultado
+    # Simplifica o resultado
     numerador, denominador = simplificar(numerador, denominador)
     
     return f"{numerador}/{denominador}"
 
-# Função para processar cada caso de teste
+# Função principal para processar os casos de teste
 def resolver_casos(casos):
     for caso in casos:
         fracao1, operador, fracao2 = caso
@@ -126,14 +130,25 @@ def resolver_casos(casos):
         except ValueError as e:
             print(f"Erro: {e}")
 
-# Função principal
+# Leitura da entrada
 def main():
+    # Lê o número de casos
     N = int(input())
-    casos = [input().split() for _ in range(N)]
+    
+    casos = []
+    
+    # Lê cada caso
+    for _ in range(N):
+        caso = input().split()
+        casos.append(caso)
+    
+    # Resolve e imprime os resultados
     resolver_casos(casos)
 
+# Chama a função principal
 if __name__ == "__main__":
     main()
+
 ```
 
 ---
